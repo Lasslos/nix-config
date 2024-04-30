@@ -77,7 +77,7 @@
     #gnome-system-monitor
     gnome-weather
     #gnome-disk-utility
-    pkgs.gnome-connections
+    #pkgs.gnome-connections
   ];
 
   # Configure keymap in X11
@@ -136,6 +136,7 @@
       gparted
       jetbrains.idea-ultimate
       jetbrains.clion
+      jetbrains.pycharm-professional
       vscode
       whatsapp-for-linux
       telegram-desktop
