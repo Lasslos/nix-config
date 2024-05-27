@@ -133,29 +133,31 @@
       _1password-gui
       _1password
       nextcloud-client
-      gparted
-      jetbrains.idea-ultimate
-      jetbrains.clion
-      jetbrains.pycharm-professional
-      vscode
+      libreoffice-qt
+      hunspell
+      hunspellDicts.en_CA
+      hunspellDicts.de_DE
+      texliveFull
+      vlc
+      spotify
+      weather
+      ausweisapp
+      geogebra6
+      
       whatsapp-for-linux
       telegram-desktop
       signal-desktop
       discord
       thunderbird
-      libreoffice-qt
-      hunspell
-      hunspellDicts.en_CA
-      hunspellDicts.de_DE
-      vlc
-      spotify
-      weather
-      geogebra6
+
       gimp
       lightworks
-      flutter
-      teams-for-linux
-      texliveFull
+      digikam
+      
+      jetbrains.idea-ultimate
+      jetbrains.clion
+      jetbrains.pycharm-professional
+      vscode
     ];
   };
 
@@ -180,6 +182,7 @@
     nix-software-center
     gnome.nautilus-python
     gnome-text-editor
+    gparted
     
     gnomeExtensions.dash-to-dock
     gnomeExtensions.gsconnect
@@ -189,12 +192,9 @@
     caffeine-ng
     
     nix-ld
-    jdk21
-    clang
-    lp_solve
-    cmake
-    python3
   ];
+  
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -221,10 +221,12 @@
     enable = true;
     allowedTCPPortRanges = [ 
       { from = 1714; to = 1764; } # KDE Connect
-    ];  
+    ];
     allowedUDPPortRanges = [ 
       { from = 1714; to = 1764; } # KDE Connect
-    ];  
+    ];
+    allowedTCPPorts = [ 24727 ]; # AusweisApp
+    allowedUDPPorts = [ 24727 ]; # AusweisApp
   }; 
 
   # This value determines the NixOS release from which the default
