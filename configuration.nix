@@ -67,15 +67,15 @@
     #gnome-calculator 
     #gnome-calendar 
     #gnome-characters 
-    gnome-clocks 
+    #gnome-clocks 
     #gnome-contacts
     gnome-font-viewer
     gnome-logs
     gnome-maps
     gnome-music
-    gnome-screenshot
+    #gnome-screenshot
     #gnome-system-monitor
-    gnome-weather
+    #gnome-weather
     #gnome-disk-utility
     #pkgs.gnome-connections
   ];
@@ -103,7 +103,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -112,11 +111,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -140,7 +136,6 @@
       texliveFull
       vlc
       spotify
-      weather
       ausweisapp
       geogebra6
       
@@ -183,13 +178,13 @@
     gnome.nautilus-python
     gnome-text-editor
     gparted
+    helvum
     
     gnomeExtensions.dash-to-dock
     gnomeExtensions.gsconnect
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.vitals
-    gnomeExtensions.openweather
-    caffeine-ng
+    gnomeExtensions.caffeine
     
     nix-ld
   ];
