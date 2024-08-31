@@ -50,35 +50,38 @@
   services.xserver.desktopManager.gnome.enable = true;
   
   services.gnome.core-utilities.enable = true;
-  environment.gnome.excludePackages = with pkgs.gnome; [
+  services.gnome.tracker.enable = true;
+  
+  # These packages are included on purpose:
     #baobab      # disk usage analyzer
-    cheese      # photo booth
     #eog         # image viewer
-    epiphany    # web browser
-    simple-scan # document scanner
-    totem       # video player
-    yelp        # help viewer
     #evince      # document viewer
     #file-roller # archive manager
-    geary       # email client
-    seahorse    # password manager
-
-    # these should be self explanatory
     #gnome-calculator 
     #gnome-calendar 
     #gnome-characters 
     #gnome-clocks 
     #gnome-contacts
-    gnome-font-viewer
-    gnome-logs
-    gnome-maps
-    gnome-music
     #gnome-screenshot
     #gnome-system-monitor
     #gnome-weather
     #gnome-disk-utility
     #pkgs.gnome-connections
-  ];
+    
+  # Exclude these packages:
+  environment.gnome.excludePackages = (with pkgs; [
+    cheese      # photo booth
+    epiphany    # web browser
+    simple-scan # document scanner
+    totem       # video player
+    yelp        # help viewer
+    geary       # email client
+    seahorse    # password manager
+    gnome-font-viewer
+    gnome-logs
+    gnome-maps
+    gnome-music
+  ]);
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -114,6 +117,15 @@
     jack.enable = true;
     wireplumber.enable = true;
   };
+  # Enable accelerated video playback
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      libvdpau-va-gl
+    ];
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -139,6 +151,8 @@
       ausweisapp
       geogebra6
       
+      prismlauncher
+      
       whatsapp-for-linux
       telegram-desktop
       signal-desktop
@@ -148,10 +162,10 @@
       gimp
       lightworks
       digikam
+      mariadb
+      exiftool
       
-      jetbrains.idea-ultimate
-      jetbrains.clion
-      jetbrains.pycharm-professional
+      jetbrains-toolbox
       vscode
     ];
   };
@@ -175,7 +189,7 @@
     wget
     git
     nix-software-center
-    gnome.nautilus-python
+    nautilus-python
     gnome-text-editor
     gparted
     helvum
@@ -185,6 +199,7 @@
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.vitals
     gnomeExtensions.caffeine
+    gnomeExtensions.control-blur-effect-on-lock-screen
     
     nix-ld
   ];
@@ -205,6 +220,7 @@
   };
   programs.nix-ld.enable = true;
   programs.java = { enable = true; package = pkgs.jdk21; };
+  programs.firefox.nativeMessagingHosts.gsconnect = true;
 
   # List services that you want to enable:
 
