@@ -13,6 +13,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernel.sysctl."kernel.sysrq" = 1;
 
   networking.hostName = "laslo-swift314"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -175,20 +176,10 @@
   
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = 
-  let
-    nix-software-center = import (pkgs.fetchFromGitHub {
-      owner = "snowfallorg";
-      repo = "nix-software-center";
-      rev = "0.1.2";
-      sha256 = "xiqF1mP8wFubdsAQ1BmfjzCgOD3YZf7EGWl9i69FTls=";
-    }) {};
-  in
-  with pkgs; [
+  environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    nix-software-center
     nautilus-python
     gnome-text-editor
     gparted
