@@ -43,15 +43,27 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver = {
+    # Enable the X11 windowing system.
+    enable = true;
+    
+    # Enable the GNOME Desktop Environment.
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+    desktopManager.gnome = {
+      enable = true;
+      extraGSettingsOverridePackages = [ pkgs.mutter ];
+      extraGSettingsOverrides = ''
+        [org.gnome.mutter]
+        experimental-features=['scale-monitor-framebuffer']
+      '';
+    };
+  };
   
   services.gnome.core-utilities.enable = true;
-  services.gnome.tracker.enable = true;
+  services.gnome.tinysparql.enable = true;
   
   # These packages are included on purpose:
     #baobab      # disk usage analyzer
@@ -107,7 +119,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -131,6 +143,23 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  users.users.caro = {
+    isNormalUser = true;
+    description = "Caro";
+    extraGroups = [ "networkmanager" ];
+    packages = with pkgs; [
+      firefox
+      libreoffice-qt
+      hunspellDicts.en_CA
+      hunspellDicts.de_DE
+      geogebra6
+      
+      eclipses.eclipse-sdk
+      
+      vlc
+      spotify
+    ];
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lasloh = {
     isNormalUser = true;
@@ -140,13 +169,14 @@
       firefox
       thunderbird
       _1password-gui
-      _1password
+      _1password-cli
       nextcloud-client
       libreoffice-qt
       hunspell
       hunspellDicts.en_CA
       hunspellDicts.de_DE
       texliveFull
+      python312Packages.pygments
       vlc
       spotify
       ausweisapp
@@ -154,7 +184,7 @@
       
       prismlauncher
       
-      whatsapp-for-linux
+      whatsie
       telegram-desktop
       signal-desktop
       discord
@@ -166,7 +196,9 @@
       mariadb
       exiftool
       
+      graphviz
       jetbrains-toolbox
+      android-studio
       vscode
     ];
   };
@@ -210,7 +242,7 @@
     polkitPolicyOwners = [ "lasloh" ];
   };
   programs.nix-ld.enable = true;
-  programs.java = { enable = true; package = pkgs.jdk21; };
+  programs.java = { enable = true; package = pkgs.jdk23; };
   programs.firefox.nativeMessagingHosts.gsconnect = true;
 
   # List services that you want to enable:
