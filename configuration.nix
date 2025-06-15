@@ -43,26 +43,23 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  services.xserver = {
-    # Enable the X11 windowing system.
+  # Disable the X11 windowing system.
+  services.xserver.enable = true;
+  
+  services.desktopManager.gnome = {
     enable = true;
-    
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverridePackages = [ pkgs.mutter ];
-      extraGSettingsOverrides = ''
-        [org.gnome.mutter]
-        experimental-features=['scale-monitor-framebuffer']
-      '';
-    };
+    extraGSettingsOverridePackages = [ pkgs.mutter ];
+    extraGSettingsOverrides = ''
+      [org.gnome.mutter]
+      experimental-features=['scale-monitor-framebuffer']
+    '';
+  };
+  services.displayManager.gdm = {
+    enable = true;
+    wayland = true;
   };
   
-  services.gnome.core-utilities.enable = true;
+  services.gnome.core-apps.enable = true;
   services.gnome.tinysparql.enable = true;
   
   # These packages are included on purpose:
@@ -222,9 +219,9 @@
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.vitals
     gnomeExtensions.caffeine
-    gnomeExtensions.control-blur-effect-on-lock-screen
     
     nix-ld
+    nodejs
   ];
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
