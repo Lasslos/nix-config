@@ -242,6 +242,27 @@
   programs.java = { enable = true; package = pkgs.jdk23; };
   programs.firefox.nativeMessagingHosts.gsconnect = true;
 
+  # Shell
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+    
+    ohMyZsh = {
+      enable = true;
+      plugins = [
+        "git"
+      ];
+      theme = "agnoster";
+    };
+    shellAliases = {
+      update = "sudo nix-channel --update";
+      upgrade = "sudo nixos-rebuild switch";
+    };
+  };
+  users.defaultUserShell = pkgs.zsh;
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
